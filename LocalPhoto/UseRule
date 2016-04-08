@@ -1,0 +1,23 @@
+注：此包包含本地图片库以及相机调用（若图片库选择的图片与拍照的图片需要保存到一起请保证调用图片库时传递的PhotoModel对象与存储照相机得到的图片的PhotoModel对象是同一个对象）
+解释：在此包下有一个PhotoModel，是用于存储选择的图片的模型,使用此库的类需要实现CamerAassemblyPeotocol协议以及协议中的finishAction方法,使用此协议方法当用户选择图片当点击完成时会调用此协议方法通知
+1、图片库调用示例：
+CamerAassembly *camer = [[CamerAassembly alloc] initWithPhotoModel:self.photoModel andNavigation:self.navigationController];
+camer.delegate = self;
+/// @brief 调用图片库,参数number为可选中的图片数量
+[camer photoLibDriveFunction:number];
+
+2、照相机调用示例(使用此类库调用照相机的类需要实现两个协议：UIImagePickerControllerDelegate,UINavigationControllerDelegate以及下面的协议方法,使用照相机的类可不实现CamerAassemblyPeotocol协议)：
+CamerAassembly *camer = [[CamerAassembly alloc] initWithPhotoModel:self.photoModel andNavigation:self.navigationController];
+    camer.camerDelegate = self;
+    /// @brief 调用相机
+    [camer camerDriveFunction];
+需要实现的协议方法：
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
+{
+    NSLog(@"ass--");
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    NSLog(@"//");
+}
